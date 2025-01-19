@@ -1,0 +1,87 @@
+const members = ["Alice", "Bob", "Charlie", "Diana", "Evan", "Fiona", "George", "Hannah"];
+
+// 第一階段：新增課程購買記錄（優惠定價）
+//let purchaseRecords = [];
+const purchaseRecords = [];
+// 撰寫函式 addPurchaseRecord，用於新增會員購買課程的記錄，並依購買數量套用優惠價格：
+function addPurchaseRecord(name,courses){
+    if (isMemberValid(name) && isCoursesValid(courses))
+    {
+        let pricePerCourse;
+        //計算課程單價
+        if (courses<=10){
+            pricePerCourse = 1500;
+        }else if (courses<=20){
+            pricePerCourse = 1300;
+        }else {
+            pricePerCourse = 1100;
+        }
+        let priceAllCourses = courses * pricePerCourse; //總金額
+        const record = {
+            name : name,
+            courses: courses,
+            pricePerCourse:pricePerCourse,
+            priceAllCourses:priceAllCourses
+        };
+        purchaseRecords.push(record);
+        
+//顯示成功訊息
+console.log("新增購買紀錄成功!會員"+name + "購買"+courses+"堂課，總金額為"+priceAllCourses+"元");
+//錯誤訊息
+} else{
+    console.log("輸入錯誤，請輸入有效的會員名稱和課程數量。");
+
+    }
+}
+// isMemberValid會員名稱是否有效
+function isMemberValid(name){
+    let isValid = false;
+    members.forEach(function(member){
+        if (member === name){
+            isValid = true;
+        }
+    });
+    return isValid;
+}
+// isCoursesValid課程數量是否為數字
+function isCoursesValid(courese){
+    return typeof courese === 'number' && courese > 0;
+}
+
+//第二階段 計算目前總營業額
+function calculateTotalPrice(){
+    let priceAllCourses =0;
+    purchaseRecords.forEach(function(record){
+        priceAllCourses+=record.priceAllCourses;
+    });
+    console.log(`目前總營業額為 ${priceAllCourses} 元`);
+}
+
+//第三階段 篩選沒購課的會員
+function filterNoPurchaseMember(){
+    const noPuraseMembers =[];
+    members.forEach(function(member){
+        let found = false;
+    purchaseRecords.forEach(function(record)
+{
+    if (record.name === member){
+        found = true;
+    }
+});
+if (found===false){
+    noPuraseMembers.push(member);
+}
+    });
+    console.log("未購買課程的會員有:"+noPuraseMembers.join("、"));
+}
+
+//text 第一階段會員名稱和購買課程數量
+addPurchaseRecord("Alice", 4); //>> 印出 console.log 文字為 新增購買記錄成功！會員 Alice 購買 4 堂課，總金額為 6000 元。
+addPurchaseRecord("Bob", 12); //>> 印出 console.log 文字為 新增購買記錄成功！會員 Bob 購買 12 堂課，總金額為 15600 元。
+addPurchaseRecord("Charlie", 25); //>> 印出 console.log 文字為 新增購買記錄成功！會員 Charlie 購買 25 堂課，總金額為 27500 元。
+addPurchaseRecord("Hannah", 50); //>> 印出 console.log 文字為 新增購買記錄成功！會員 Hannah 購買 50 堂課，總金額為 55000 元。
+addPurchaseRecord("名稱", "課程數量"); //>> 印出 console.log 文字為 輸入錯誤，請輸入有效的會員名稱和課程數量。
+//第二階段輸出目前的總營業額
+calculateTotalPrice();
+//第三階段，顯示未購買課程的學員
+filterNoPurchaseMember();
